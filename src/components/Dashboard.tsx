@@ -155,20 +155,25 @@ export function Dashboard({ user, onLogout, onUpdateUser }: DashboardProps) {
                 </div>
 
                 {/* Action buttons */}
-                <div className="flex gap-3 pt-4">
+                <div className="flex gap-3 pt-6">
                   {!isEditing ? (
-                    <Button type="button" onClick={() => setIsEditing(true)}>
-                      Edit Profile
-                    </Button>
+                    <div className="space-y-2">
+                      <Button type="button" onClick={() => setIsEditing(true)} className="w-full sm:w-auto">
+                        ✏️ Edit Profile
+                      </Button>
+                      <p className="text-sm text-muted-foreground">
+                        Click "Edit Profile" to modify your information
+                      </p>
+                    </div>
                   ) : (
-                    <>
-                      <Button type="submit">
-                        Save Changes
+                    <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                      <Button type="submit" className="w-full sm:w-auto">
+                        💾 Save Changes
                       </Button>
-                      <Button type="button" variant="outline" onClick={handleCancel}>
-                        Cancel
+                      <Button type="button" variant="outline" onClick={handleCancel} className="w-full sm:w-auto">
+                        ❌ Cancel
                       </Button>
-                    </>
+                    </div>
                   )}
                 </div>
               </form>
