@@ -1,14 +1,51 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect } from "react";
+import { AuthForm } from "@/components/AuthForm";
+import { Dashboard } from "@/components/Dashboard";
+
+interface User {
+  email: string;
+  name: string;
+  phone: string;
+  gender: string;
+}
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    // Check if user is already logged in
+    const currentUser = localStorage.getItem("mylogn_current_user");
+    if (currentUser) {
+      setUser(JSON.parse(currentUser));
+    }
+  }, []);
+
+  const handleLogin = (userData: User) => {
+    setUser(userData);
+    localStorage.setItem("mylogn_current_user", JSON.stringify(userData));
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("mylogn_current_user");
+  };
+
+  const handleUpdateUser = (updatedUser: User) => {
+    setUser(updatedUser);
+    localStorage.setItem("mylogn_current_user", JSON.stringify(updatedUser));
+  };
+
+  if (user) {
+    return (
+      <Dashboard 
+        user={user} 
+        onLogout={handleLogout}
+        onUpdateUser={handleUpdateUser}
+      />
+    );
+  }
+
+  return <AuthForm onLogin={handleLogin} />;
 };
 
 export default Index;
